@@ -8,7 +8,7 @@
 #define NUM_PLAYERS 4
 #define DECK_SIZE 52
 #define CARDS_PER_HAND 5
-#define MCTRIALS 10000
+#define MCTRIALS 100
 
 typedef struct card{
 	 char *face;
@@ -69,3 +69,5 @@ void print_Dummy(Player *player);
 int handRank(Player *player);
 int handCompareTo(Player *p1, Player *p2);
 char * winnerIs(Player *table[]);
+int exchangeMC(Deck *toDeal, Player *person, int cardNum);
+void updateMC(Deck *queue);

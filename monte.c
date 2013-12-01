@@ -13,18 +13,21 @@
 
 
 Deck create_Monte(Player *person){/*this may be uneccessary if i just keep the monte deck with the person player*/
-	 int i, j, k=0, s = 47;
+	 int i, j, k=0, s = 0;
 
 	 Deck monte_Carlo_Deck = get_new_Deck();
-	 for (i=0; i<DECK_SIZE; i++){
+	 Card temp;
+	 for (i=0; i<52; i++){
 		  for(j = 0; j<HAND_SIZE;j++){
-				if(strcmp(person->hand[j].face, monte_Carlo_Deck.deckCards[i].face) != 0 && strcmp(person->hand[j].suit, monte_Carlo_Deck.deckCards[i].suit) != 0){
-					 monte_Carlo_Deck.deckCards[k] = person->hand[i];
-					 k++;
+				if((strcmp(person->hand[j].face, monte_Carlo_Deck.deckCards[i].face)) != 0 && (strcmp(person->hand[j].suit, monte_Carlo_Deck.deckCards[i].suit) != 0)){
+					k++;
 				}
 				else{
-					 monte_Carlo_Deck.deckCards[s] = person->hand[i];
-					 s++;
+					 temp = monte_Carlo_Deck.deckCards[k];
+					 for(s = k ;s < DECK_SIZE-2; s++){
+							monte_Carlo_Deck.deckCards[s]	= monte_Carlo_Deck.deckCards[s+1];				
+					 }
+					 monte_Carlo_Deck.deckCards[DECK_SIZE-1] = temp;
 				}
 		  }
 	 }
@@ -72,33 +75,25 @@ printf("hi\n");
  {1,1,1,1,1},
  {0,0,0,0,0},
 	 };
-/*
+
 	 for(i = 0;i<32;i++){
-*/		  dummy.hand[0] = deck->deckCards[47];
-		  dummy.hand[1] = deck->deckCards[48];
-		  dummy.hand[2] = deck->deckCards[49];
-		  dummy.hand[3] = deck->deckCards[50];
-		  dummy.hand[4] = deck->deckCards[51];
-		  for(i = 0;i<5;i++){
-				printf("%s ", dummy.hand[i].face);
-		  }
-		  
-/*		  for(j = 0; j < MCTRIALS; j++){
+		  for(j = 0; j < MCTRIALS; j++){
 				shuffle(deck, 47);
 				for(k = 0; k < HAND_SIZE; k++){
 					 if(choices[i][k] == 1){
-						  exchange(deck, &dummy, k);
+						  exchangeMC(deck, &dummy, k);
 					 }
 				}
 				rank = handRank(&dummy);
-				sum +=rank;
+				sum += rank;
 		  }
 		  ave = (double)sum/(double)MCTRIALS;
 		  if(ave > maxave){
 				maxave = ave;
 				bestType = i;
 		  }
-	 }*/
+	 }
+	 
 	 return val;
 }
 
