@@ -141,8 +141,9 @@ int isHand(Card *hand){
 
 
 
-int handRank(Player *player){
-	 int i, j, f, k, s, t, x, y, z,  four = 0, high = 0, pair = 0, three = 0, straight = 0, flush = 0, rank = 0;
+double handRank(Player *player){
+	 int i, j, f, k, s, t, y, z,  four = 0, high = 0, pair = 0, three = 0, straight = 0, flush = 0;
+	 double x, rank = 0.0;
 	 int facetrack[13];
 	 int suittrack[4];
 	 for(i = 0;i<13;i++){
@@ -227,7 +228,7 @@ int handRank(Player *player){
 		  rank = 12 +  x;/*1 pair*/
 	 }
 	 else if(pair ==2){
-		  rank = 26+y + x;/*two pair*/
+		  rank = 26+ 2*y + ((double)x/13.0);/*two pair*/
 	 }
 	 else if(three == 1 && pair == 0){
 		  rank = 53 + t;/*three of kind*/
@@ -241,7 +242,6 @@ int handRank(Player *player){
 	 else{
 		  rank = high;/*high card*/
 	 }
-	 printf("\n\n%i\n", rank);
 	 player->rank = rank;
 	 return rank;
 }

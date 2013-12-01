@@ -1,34 +1,25 @@
 #include "hedz.h"
 
 
-/*id like to NOT build out every instance of hands, but use comparisions to build a heap? or other data structure to compare to */
-
-
 /*was debating a logarithmic scale for hands...lots of 'closeness' between a pair of jacks, 2 low pair and 3 of a kind verse an almost always winning straight flush*/
 
 /*second thought was to build equivalence classes for each choices.type and assign value to them... lets try that*/
-/*i can multiply the high card or pair or three of a kind by a scalar function say * 5 for a five or * 9 for a nine and pump up the value depending on the kickers, this can be 
-  built into later functions*/
-
-
 
 Deck create_Monte(Player *person){/*this may be uneccessary if i just keep the monte deck with the person player*/
-	 int i, j, k=0, s = 0;
+	 int i, j, s = 0;
 
 	 Deck monte_Carlo_Deck = get_new_Deck();
 	 Card temp;
-	 for (i=0; i<52; i++){
+	 for (i=0; i<47; i++){
 		  for(j = 0; j<HAND_SIZE;j++){
-				if((strcmp(person->hand[j].face, monte_Carlo_Deck.deckCards[i].face)) != 0 && (strcmp(person->hand[j].suit, monte_Carlo_Deck.deckCards[i].suit) != 0)){
-					k++;
-				}
-				else{
-					 temp = monte_Carlo_Deck.deckCards[k];
-					 for(s = k ;s < DECK_SIZE-2; s++){
-							monte_Carlo_Deck.deckCards[s]	= monte_Carlo_Deck.deckCards[s+1];				
+				if((strcmp(person->hand[j].face, monte_Carlo_Deck.deckCards[i].face) == 0) && (strcmp(person->hand[j].suit, monte_Carlo_Deck.deckCards[i].suit) == 0)){
+					 temp = monte_Carlo_Deck.deckCards[i];
+					 for(s = i ;s < DECK_SIZE-1; s++){
+						  monte_Carlo_Deck.deckCards[s]	= monte_Carlo_Deck.deckCards[s+1];				
 					 }
 					 monte_Carlo_Deck.deckCards[DECK_SIZE-1] = temp;
 				}
+
 		  }
 	 }
 
@@ -36,48 +27,58 @@ Deck create_Monte(Player *person){/*this may be uneccessary if i just keep the m
 
 }
 
-float monte_Analysis(Deck *deck){
-	 int i, j, k, bestType = 0, rank = 0, ave = 0, sum = 0, maxave = 0;
-printf("hi\n");
-	 float val = 0.0;
+double  monte_Analysis(Deck *deck, Player *person){
+	 int i, j, k, bestType = 0, rank = 0;
+	 double maxave = 0.0, ave = 0.0, sum = 0.0;
 	 Player dummy = player_init("Dummy", 255);
 	 int choices[][5] = {
-{0,0,0,0,1},
-{0,0,0,1,0},
-{0,0,0,1,1},
-{0,0,1,0,0},
-{0,0,1,0,1},
-{0,0,1,1,0},
-{0,0,1,1,1},
-{0,1,0,0,0},
-{0,1,0,0,1},
-{0,1,0,1,0},
- {0,1,0,1,1},
- {0,1,1,0,0},
- {0,1,1,0,1},
- {0,1,1,1,0},
- {0,1,1,1,1},
- {1,0,0,0,0},
- {1,0,0,0,1},
- {1,0,0,1,0},
- {1,0,0,1,1},
- {1,0,1,0,0},
- {1,0,1,0,1},
- {1,0,1,1,0},
- {1,0,1,1,1},
- {1,1,0,0,0},
- {1,1,0,0,1},
- {1,1,0,1,0},
- {1,1,0,1,1},
- {1,1,1,0,0},
- {1,1,1,0,1},
- {1,1,1,1,0},
- {1,1,1,1,1},
- {0,0,0,0,0},
+		  {0,0,0,0,1},
+		  {0,0,0,1,0},
+		  {0,0,0,1,1},
+		  {0,0,1,0,0},
+		  {0,0,1,0,1},
+		  {0,0,1,1,0},
+		  {0,0,1,1,1},
+		  {0,1,0,0,0},
+		  {0,1,0,0,1},
+		  {0,1,0,1,0},
+		  {0,1,0,1,1},
+		  {0,1,1,0,0},
+		  {0,1,1,0,1},
+		  {0,1,1,1,0},
+		  {0,1,1,1,1},
+		  {1,0,0,0,0},
+		  {1,0,0,0,1},
+		  {1,0,0,1,0},
+		  {1,0,0,1,1},
+		  {1,0,1,0,0},
+		  {1,0,1,0,1},
+		  {1,0,1,1,0},
+		  {1,0,1,1,1},
+		  {1,1,0,0,0},
+		  {1,1,0,0,1},
+		  {1,1,0,1,0},
+		  {1,1,0,1,1},
+		  {1,1,1,0,0},
+		  {1,1,1,0,1},
+		  {1,1,1,1,0},
+		  {1,1,1,1,1},
+		  {0,0,0,0,0},
 	 };
+	 dummy.hand[0] = deck->deckCards[47];
+	 dummy.hand[1] = deck->deckCards[48];
+	 dummy.hand[2] = deck->deckCards[49];
+	 dummy.hand[3] = deck->deckCards[50];
+	 dummy.hand[4] = deck->deckCards[51];
 
 	 for(i = 0;i<32;i++){
+		  sum = 0;
 		  for(j = 0; j < MCTRIALS; j++){
+				dummy.hand[0] = deck->deckCards[47];
+				dummy.hand[1] = deck->deckCards[48];
+				dummy.hand[2] = deck->deckCards[49];
+				dummy.hand[3] = deck->deckCards[50];
+				dummy.hand[4] = deck->deckCards[51];
 				shuffle(deck, 47);
 				for(k = 0; k < HAND_SIZE; k++){
 					 if(choices[i][k] == 1){
@@ -85,16 +86,20 @@ printf("hi\n");
 					 }
 				}
 				rank = handRank(&dummy);
-				sum += rank;
+				sum += (double)rank;
 		  }
-		  ave = (double)sum/(double)MCTRIALS;
+		  ave = (double)(sum/MCTRIALS);
 		  if(ave > maxave){
 				maxave = ave;
 				bestType = i;
 		  }
 	 }
-	 
-	 return val;
+	 person->mc_reco[0] = choices[bestType][0];
+	 person->mc_reco[1] = choices[bestType][1];
+	 person->mc_reco[2] = choices[bestType][2];
+	 person->mc_reco[3] = choices[bestType][3];
+	 person->mc_reco[4] = choices[bestType][4];
+	 return maxave;
 }
 
 void dealMC(Deck *deck){
