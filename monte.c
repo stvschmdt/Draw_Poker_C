@@ -65,20 +65,20 @@ double  monte_Analysis(Deck *deck, Player *person){
 		  {1,1,1,1,1},
 		  {0,0,0,0,0},
 	 };
-	 dummy.hand[0] = deck->deckCards[47];
-	 dummy.hand[1] = deck->deckCards[48];
-	 dummy.hand[2] = deck->deckCards[49];
-	 dummy.hand[3] = deck->deckCards[50];
-	 dummy.hand[4] = deck->deckCards[51];
+				dummy.hand[0] = person->hand[0];
+				dummy.hand[1] = person->hand[1];
+				dummy.hand[2] = person->hand[2];
+				dummy.hand[3] = person->hand[3];
+				dummy.hand[4] = person->hand[4];
 
 	 for(i = 0;i<32;i++){
 		  sum = 0;
 		  for(j = 0; j < MCTRIALS; j++){
-				dummy.hand[0] = deck->deckCards[47];
-				dummy.hand[1] = deck->deckCards[48];
-				dummy.hand[2] = deck->deckCards[49];
-				dummy.hand[3] = deck->deckCards[50];
-				dummy.hand[4] = deck->deckCards[51];
+				dummy.hand[0] = person->hand[0];
+				dummy.hand[1] = person->hand[1];
+				dummy.hand[2] = person->hand[2];
+				dummy.hand[3] = person->hand[3];
+				dummy.hand[4] = person->hand[4];
 				shuffle(deck, 47);
 				for(k = 0; k < HAND_SIZE; k++){
 					 if(choices[i][k] == 1){

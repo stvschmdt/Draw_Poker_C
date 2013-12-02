@@ -204,3 +204,12 @@ void vBorder(int x){
 		x--;
 	}
 }
+
+void tableRefresh(Player *table[]){
+		int i;
+		for(i = 0;i<NUM_PLAYERS;i++){
+			table[i]->position = 0;
+			table[i]->inGame = 1;
+		}
+
+}

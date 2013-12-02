@@ -35,6 +35,7 @@ int main(){
 	 int gamenumber = 1;
 
 	 while(gamenumber == 1){
+		  printf("\n");
 		  printf("\nREADY -- Here we go...\n\n");
 		  shuffle(&game_deck, DECK_SIZE);
 		  first_Deal(&game_deck, table, NUM_PLAYERS);
@@ -102,7 +103,10 @@ int main(){
 
 		  gamenumber = playgame();
 		  printf("\n");
-		  /*tableRefresh(table);*/
+		  printf("\n");
+		  printf("\n");
+		  printf("\n");
+		  tableRefresh(table);
 	 }
 	 return 0;
 }

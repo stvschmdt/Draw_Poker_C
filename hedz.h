@@ -8,7 +8,7 @@
 #define NUM_PLAYERS 4
 #define DECK_SIZE 52
 #define CARDS_PER_HAND 5
-#define MCTRIALS 1000
+#define MCTRIALS 10000
 
 typedef struct card{
 	 char *face;
@@ -75,4 +75,5 @@ int exchangeMC(Deck *toDeal, Player *person, int cardNum);
 void updateMC(Deck *queue);
 int getStatus(Player *person);
 void hBorder();
+void tableRefresh(Player *table[]);
 void vBorder(int x);
