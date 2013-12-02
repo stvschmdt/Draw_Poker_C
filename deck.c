@@ -111,3 +111,5 @@ void updateMC(Deck *queue){
 	 }
 	 queue->deckCards[47-1] = temp;
 }
+
+

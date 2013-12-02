@@ -327,40 +327,92 @@ int handCompareTo(Player *p1, Player *p2){
 }
 
 char * winnerIs(Player *table[], int pot){
-	   int i;
-		for(i = 0;i<NUM_PLAYERS;i++){
-			if (table[i]->inGame == 0){
+	 int i;
+	 for(i = 0;i<NUM_PLAYERS;i++){
+		  if (table[i]->inGame == 0){
 				table[i]->position = 0;
-			}
+		  }
 
-		}
-		if(table[0]->position > table[1]->position && table[0]->position > table[2]->position && table[0]->position > table[3]->position){
-			table[0]->rupies += pot;
-			printf("\n%s WINS %i RUPIES\n", table[0]->name, pot);
-			getStatus(table[0]);
-			return table[0]->name;
-		}
+	 }
+	 if(table[0]->position > table[1]->position && table[0]->position > table[2]->position && table[0]->position > table[3]->position){
+		  table[0]->rupies += pot;
+		  printf("\n%s WINS %i RUPIES\n", table[0]->name, pot);
+		  getStatus(table[0]);
+		  return table[0]->name;
+	 }
 
-		if(table[1]->position > table[0]->position && table[1]->position > table[2]->position && table[1]->position > table[3]->position){
-			table[1]->rupies += pot;
-			printf("\n%s WINS %i RUPIES\n", table[1]->name, pot);
-			getStatus(table[1]);
-			return table[1]->name;
-		}
-		if(table[2]->position > table[0]->position && table[2]->position > table[1]->position && table[2]->position > table[3]->position){
-			table[2]->rupies += pot;
-			printf("\n%s WINS %i RUPIES\n", table[2]->name, pot);
-			getStatus(table[2]);
-			return table[2]->name;
-		}
+	 if(table[1]->position > table[0]->position && table[1]->position > table[2]->position && table[1]->position > table[3]->position){
+		  table[1]->rupies += pot;
+		  printf("\n%s WINS %i RUPIES\n", table[1]->name, pot);
+		  getStatus(table[1]);
+		  return table[1]->name;
+	 }
+	 if(table[2]->position > table[0]->position && table[2]->position > table[1]->position && table[2]->position > table[3]->position){
+		  table[2]->rupies += pot;
+		  printf("\n%s WINS %i RUPIES\n", table[2]->name, pot);
+		  getStatus(table[2]);
+		  return table[2]->name;
+	 }
 
-		if(table[3]->position > table[0]->position && table[3]->position > table[1]->position && table[3]->position > table[2]->position){
-			table[3]->rupies += pot;
-			printf("\n%s WINS %i RUPIES\n", table[3]->name, pot);
-			getStatus(table[3]);
-			return table[3]->name;
-		}
-		else{
-			return "you have a bug";
-		}
+	 if(table[3]->position > table[0]->position && table[3]->position > table[1]->position && table[3]->position > table[2]->position){
+		  table[3]->rupies += pot;
+		  printf("\n%s WINS %i RUPIES\n", table[3]->name, pot);
+		  getStatus(table[3]);
+		  return table[3]->name;
+	 }
+	 else{
+		  return "you have a bug";
+	 }
+}
+
+void tableCompareTo(Player *table[]){
+	 int i, j;
+	 for(i = 0;i<NUM_PLAYERS;i++){
+		  for(j = i+1; j<NUM_PLAYERS;j++){
+				if(table[i]->inGame != 0 && table[j]->inGame != 0){
+					 handCompareTo(table[i], table[j]);
+				}
+		  }
+	 }
+
+}
+
+
+int cpuBets(Player *person, Player *user, int bets){
+	 if(person->inGame !=0){
+		  if(person->rank < 20){
+				person->rupies -= bets;
+				printf("%s, bets %i rupies\n",person->name, bets);
+				return bets;
+		  }
+		  else{
+					 bets = bets*1.2;
+					 person->rupies -= bets;
+					 printf("%s, bets %i rupies\n",person->name, bets);
+					 needRaise(person, user, bets);
+					 return bets;	
+				}
+		  }
+	 return 0;
+}
+
+int cpuActions(Deck *toDeal, Player *person, Player *user, int bet){
+	 int i, b;
+	 handRank(person);
+	 if(person->rank > 10 || bet < (person->rupies * .10)){
+		  b = cpuBets(person, user, bet);
+		  Deck CPUMC_Deck = create_Monte(person);
+		  monte_Analysis(&CPUMC_Deck, person);
+		  for(i = 0;i<HAND_SIZE;i++){
+				if(person->mc_reco[i] == 1){
+					 exchange(toDeal, person, i);
+				}
+		  }
+		  return b;
+	 }
+	 else{
+		  person->inGame = 0;
+		  printf("%s decided to fold...\n\n",person->name);
+		  return 0;
+	 }
 }

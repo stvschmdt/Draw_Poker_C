@@ -19,10 +19,10 @@ int playgame(){
 	 printf("Would you like to play again (please answer 'y' or 'n')? --> ");
 	 scanf("%s",game);
 	 if((strcmp(game, "y") ==0) || (strcmp(game, "yes") == 0)){
-		return 1;	  
+		  return 1;	  
 	 }
 	 else{
-	   return 0;
+		  return 0;
 	 }
 }
 
@@ -195,21 +195,64 @@ void print_Options(){
 }
 
 void hBorder(){
-	printf("******************************************************\n");
+	 printf("******************************************************\n");
 }
 
 void vBorder(int x){
-	while(x>0){
-		printf("*                                                    *\n");
-		x--;
-	}
+	 while(x>0){
+		  printf("*                                                    *\n");
+		  x--;
+	 }
 }
 
 void tableRefresh(Player *table[]){
-		int i;
-		for(i = 0;i<NUM_PLAYERS;i++){
-			table[i]->position = 0;
-			table[i]->inGame = 1;
-		}
+	 int i;
+	 for(i = 0;i<NUM_PLAYERS;i++){
+		  table[i]->position = 0;
+		  table[i]->inGame = 1;
+	 }
 
 }
+
+void printResults(Player *table[]){
+	 int i;
+	 for(i = 0;i<NUM_PLAYERS;i++){
+		  if(table[i]->inGame != 0){
+				print_Hand(table, i+1);
+				isHand(table[i]->hand);
+		  }
+	 }
+
+
+}
+
+void evaluateHands(Player *table[]){
+	 int i;
+	 for(i = 0;i<NUM_PLAYERS;i++){
+		  if(table[i]->inGame != 0){
+				handRank(table[i]);
+		  }
+	 }
+
+}
+
+int needRaise(Player *p1, Player *user, int bet){
+	 
+	 char *raise = malloc(sizeof(char)*255);
+	 printf("%s raised to %i would you like to call or raise (Please type 'c' or 'r')? --> ", p1->name, bet);
+	 scanf("%s", raise);
+	 if((strcmp(raise, "c") ==0) || strcmp(raise, "call") == 0){
+	 user->rupies -= bet;
+	 printf("%s called %s\n", user->name, p1->name);
+	 }
+	 else if((strcmp(raise, "raise") ==0) || strcmp(raise, "r") == 0){
+		betAmount(user);			
+	 }
+	 else{
+		user->inGame = 0;
+		printf("%s folded...", user->name);
+	 }
+
+	 return bet;
+}
+
