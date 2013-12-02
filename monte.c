@@ -28,8 +28,8 @@ Deck create_Monte(Player *person){/*this may be uneccessary if i just keep the m
 }
 
 double  monte_Analysis(Deck *deck, Player *person){
-	 int i, j, k, bestType = 0, rank = 0;
-	 double maxave = 0.0, ave = 0.0, sum = 0.0;
+	 int i, j, k, bestType = 0;
+	 double maxave = 0.0, ave = 0.0, rank = 0.0, sum = 0.0;
 	 Player dummy = player_init("Dummy", 255);
 	 int choices[][5] = {
 		  {0,0,0,0,1},
@@ -88,7 +88,7 @@ double  monte_Analysis(Deck *deck, Player *person){
 				rank = handRank(&dummy);
 				sum += (double)rank;
 		  }
-		  ave = (double)(sum/MCTRIALS);
+		  ave = (double)sum/(double)MCTRIALS;
 		  if(ave > maxave){
 				maxave = ave;
 				bestType = i;

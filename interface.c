@@ -14,9 +14,29 @@ void welcome(){
 	 printf("Mario, Link and Taloon are waiting for you to sit down\n\n");
 }
 
+int playgame(){
+	 char *game = malloc(sizeof(char)*255);
+	 printf("Would you like to play again (please answer 'y' or 'n')? --> ");
+	 scanf("%s",game);
+	 if((strcmp(game, "y") ==0) || (strcmp(game, "yes") == 0)){
+		return 1;	  
+	 }
+	 else{
+	   return 0;
+	 }
+}
+
+void gamescene(int numPlayers, Player *table[]){
+	 print_Dummy(table[1]);
+	 printf("\n");
+	 print_Dummy(table[2]);
+	 printf("\n");
+	 print_Dummy(table[3]);
+}
+
 char *getName(){
 	 char * name = malloc(sizeof(char)*255);
-	 printf("Please type in your name and hit enter\nso you won't be a stranger! -->");
+	 printf("Please type in your name and hit enter\nso you won't be a stranger! --> ");
 	 scanf("%s",name);
 	 printf("\n");
 
@@ -27,7 +47,7 @@ int getRupies(){
 	 int *rupies;
 	 int x = 0;
 	 rupies = &x;
-	 printf("Please enter how many rupies would you like\nto play poker with today-->");
+	 printf("Please enter how many rupies would you like\nto play poker with today--> ");
 	 scanf("%i", rupies);
 	 printf("\n");
 
@@ -38,7 +58,7 @@ int betAmount(Player *one){
 	 int *bet;
 	 int x =0;
 	 bet = &x;
-	 printf("How much would you like to wager-->");
+	 printf("How much would you like to wager--> ");
 	 scanf("%i",bet);
 	 one->rupies -= (*bet);
 	 printf("\n");
@@ -50,7 +70,7 @@ int newCards(Deck *dealer, Player *player){
 	 int *new;
 	 int x = 0;
 	 new = &x;
-	 printf("How many cards would you like?-->");
+	 printf("How many cards would you like?--> ");
 	 scanf("%i",new);
 	 swap(dealer, player, *new);
 	 return *new;
@@ -58,7 +78,7 @@ int newCards(Deck *dealer, Player *player){
 
 int swap(Deck *dealer, Player *player, int numCards){
 	 int c, i, x = numCards;
-	 printf("Please type the letter of the card you would like to exchange-->");
+	 printf("Please type the letter of the card you would like to exchange--> ");
 	 while(x > 0){
 		  c = getchar();
 		  if(c == ' '){
@@ -170,6 +190,17 @@ void print_Dummy(Player *player){
 void print_Options(){
 
 	 printf(" a   b   c   d   e  \n\n");
-	 printf("******************************************************\n*please select which cards would you like to exchange*\n*by typing the letter below the card followed by the *\n*space bar. For example:a d                          *\n****************************************************** \n");
+	 printf("------------------------------------------------------\n|please select which cards would you like to exchange|\n|by typing the letter(s) of the card(s) below the    |\n|corresponding cards and hit enter. Example: a d     |\n------------------------------------------------------ \n");
 
+}
+
+void hBorder(){
+	printf("******************************************************\n");
+}
+
+void vBorder(int x){
+	while(x>0){
+		printf("*                                                    *\n");
+		x--;
+	}
 }

@@ -17,3 +17,7 @@ int got_dealt(){
 return 0;
 }
 
+int getStatus(Player *person){
+	printf("%s currently has %i rupies\n", person->name, person->rupies);
+return 0;
+}

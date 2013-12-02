@@ -228,16 +228,16 @@ double handRank(Player *player){
 		  rank = 12 +  x;/*1 pair*/
 	 }
 	 else if(pair ==2){
-		  rank = 26+ 2*y + ((double)x/13.0);/*two pair*/
+		  rank = 24+ 2*y + ((double)x/13.0);/*two pair*/
 	 }
 	 else if(three == 1 && pair == 0){
-		  rank = 53 + t;/*three of kind*/
+		  rank = 52 + t;/*three of kind*/
 	 }
 	 else if(three ==1 && pair ==1){
-		  rank = 92 + t + x;/*full house*/
+		  rank = 91 + t + x;/*full house*/
 	 }
 	 else if(flush == 1){
-		  rank = 78 + high;/*flush*/
+		  rank = 79 + high;/*flush*/
 	 }
 	 else{
 		  rank = high;/*high card*/
@@ -326,25 +326,38 @@ int handCompareTo(Player *p1, Player *p2){
 
 }
 
-char * winnerIs(Player *table[]){
+char * winnerIs(Player *table[], int pot){
 	   int i;
 		for(i = 0;i<NUM_PLAYERS;i++){
 			if (table[i]->inGame == 0){
 				table[i]->position = 0;
 			}
+
 		}
 		if(table[0]->position > table[1]->position && table[0]->position > table[2]->position && table[0]->position > table[3]->position){
+			table[0]->rupies += pot;
+			printf("\n%s WINS %i RUPIES\n", table[0]->name, pot);
+			getStatus(table[0]);
 			return table[0]->name;
 		}
 
 		if(table[1]->position > table[0]->position && table[1]->position > table[2]->position && table[1]->position > table[3]->position){
+			table[1]->rupies += pot;
+			printf("\n%s WINS %i RUPIES\n", table[1]->name, pot);
+			getStatus(table[1]);
 			return table[1]->name;
 		}
 		if(table[2]->position > table[0]->position && table[2]->position > table[1]->position && table[2]->position > table[3]->position){
+			table[2]->rupies += pot;
+			printf("\n%s WINS %i RUPIES\n", table[2]->name, pot);
+			getStatus(table[2]);
 			return table[2]->name;
 		}
 
 		if(table[3]->position > table[0]->position && table[3]->position > table[1]->position && table[3]->position > table[2]->position){
+			table[3]->rupies += pot;
+			printf("\n%s WINS %i RUPIES\n", table[3]->name, pot);
+			getStatus(table[3]);
 			return table[3]->name;
 		}
 		else{
