@@ -82,4 +82,7 @@ void tableCompareTo(Player *table[]);
 int cpuActions(Deck *toDeal, Player *person, Player * user, int bet);
 int cpuBets(Player *person, Player *user,  int bets);
 int needRaise(Player *p1, Player *user, int bet);
+void printReco(int scale[10]);
+int monteSuggest(double rank);
+int printTextReco(Player *person);
 void vBorder(int x);

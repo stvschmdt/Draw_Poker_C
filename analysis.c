@@ -210,19 +210,19 @@ double handRank(Player *player){
 		  }
 	 }
 	 if(straight == 5 && flush == 0){
-		  rank = 67 + s;/*straight*/
+		  rank = 66 + s;/*straight*/
 	 }
 	 else if(straight == 4 && facetrack[0] == 1 && flush == 0){
-		  rank = 67 + 5;/*straight to the 5*/
+		  rank = 66 + 5;/*straight to the 5*/
 	 }
 	 else if(straight == 5 && flush == 1){
-		  rank = 132 + s;/*straight flush*/
+		  rank = 127 + s;/*straight flush*/
 	 }
 	 else if(straight == 4 && facetrack[0] == 1 && flush == 1){
-		  rank = 132 + 5;/*straight flush*/
+		  rank = 127 + 5;/*straight flush*/
 	 }
 	 else if(four ==1){
-		  rank = 118 + z;
+		  rank = 112 + z;
 	 }
 	 else if(pair == 1 && three == 0){
 		  rank = 12 +  x;/*1 pair*/
@@ -234,10 +234,10 @@ double handRank(Player *player){
 		  rank = 52 + t;/*three of kind*/
 	 }
 	 else if(three ==1 && pair ==1){
-		  rank = 91 + t + x;/*full house*/
+		  rank = 91 + t + ((double)x/13.0);/*full house*/
 	 }
 	 else if(flush == 1){
-		  rank = 79 + high;/*flush*/
+		  rank = 77 + high;/*flush*/
 	 }
 	 else{
 		  rank = high;/*high card*/

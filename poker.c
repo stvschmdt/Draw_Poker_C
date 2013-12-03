@@ -53,9 +53,11 @@ int main(){
 		  isHand(one.hand);
 
 		  Deck MC_Deck = create_Monte(&one);
-		  printf("Monte suggests: %f \n", monte_Analysis(&MC_Deck, &one));
+		  monteSuggest(monte_Analysis(&MC_Deck, &one));
+		  printTextReco(&one);
+		  /*
 		  printf("Recommended exchange is: %i %i %i %i %i\n\n", one.mc_reco[0], one.mc_reco[1],one.mc_reco[2],one.mc_reco[3],one.mc_reco[4]);
-
+*/
 		  newCards(&game_deck,&one);
 		  print_Hand(table, 1);
 		  isHand(one.hand);

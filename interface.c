@@ -256,3 +256,125 @@ int needRaise(Player *p1, Player *user, int bet){
 	 return bet;
 }
 
+int monteSuggest(double rank){
+	int i;
+	int scale[10];
+	for(i=0;i<10;i++){
+		scale[i] = 0;
+	}
+	if(rank <= 12){
+		scale[0]++;
+	}
+
+	if(rank > 12 && rank <=25){
+		scale[1]++;
+
+	}
+
+
+	if(rank > 25 && rank <=54){
+		scale[2]++;
+
+	}
+	if(rank >54 && rank <=67){
+		scale[3]++;
+
+	}
+	if(rank >67 && rank <=81){
+		scale[4]++;
+
+	}
+	if(rank >81 && rank <=97){
+		scale[5]++;
+
+	}
+	if(rank >97 && rank <=113){
+		scale[6]++;
+
+	}
+	if(rank > 113 && rank <=127){
+		scale[7]++;
+
+	}
+	if(rank > 127 && rank <= 139){
+		scale[8]++;
+
+	}
+	if(rank == 140){
+		scale[9]++;
+
+	}
+	printReco(scale);
+	return 0;
+}
+
+void printReco(int scale[10]){
+	if(scale[0] == 1){
+		printf("AI Data shows the most probable outcome to be a high card with the below exchange of cards...");
+	}
+
+	if(scale[1] == 1){
+		printf("AI Data shows the most probable outcome to be a pair with the below exchange of cards...");
+	}
+	if(scale[2] == 1){
+		printf("AI Data shows the most probable outcome to be two pair with the below exchange of cards...");
+	}
+	if(scale[3] == 1){
+		printf("AI Data shows the most probable outcome to be three of a kind with the below exchange of cards...");
+	}
+	if(scale[4] == 1){
+		printf("AI Data shows the most probable outcome to be a straight with the below exchange of cards...");
+	}
+	if(scale[5] == 1){
+		printf("AI Data shows the most probable outcome to be a flush with the below exchange of cards...");
+	}
+	if(scale[6] == 1){
+		printf("AI Data shows the most probable outcome to be a full house with the below exchange of cards...");
+	}
+	if(scale[7] == 1){
+		printf("AI Data shows the most probable outcome to be four of a kind with the below exchange of cards...");
+	}
+	if(scale[8] == 1){
+		printf("AI Data shows the most probable outcome to be a straight flush with the below exchange of cards...");
+	}
+	if(scale[9] == 1){
+		printf("AI Data shows the most probable outcome to be a royal flush with the below exchange of cards...");
+	}
+
+	printf("\n");
+}
+
+int printTextReco(Player *person){
+		if(person->mc_reco[0] == 1){
+			printf(" a  ");
+		}
+		else{
+			printf("    ");
+		}
+		if(person->mc_reco[1] == 1){
+			printf(" b  ");
+		}
+		else{
+			printf("    ");
+		}
+		if(person->mc_reco[2] == 1){
+			printf(" c  ");
+		}
+		else{
+			printf("    ");
+		}
+		if(person->mc_reco[3] == 1){
+			printf(" d  ");
+		}
+		else{
+			printf("    ");
+		}
+		if(person->mc_reco[4] == 1){
+			printf(" e  ");
+		}
+		else{
+			printf("    ");
+		}
+printf("\n");
+return 0;
+}
