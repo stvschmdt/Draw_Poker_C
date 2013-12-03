@@ -18,7 +18,7 @@ The game logic is as follows:
  - shuffle the deck
  - deal five cards to each of the four players
  - loop over each of the three automated players and have them make
-   a decision on which cards (if any) to exchange.
+   a decision on which cards (if any) to exchange
 		* using an AI decision making process.  Monte Carlo simulation of all possible hands,
 		resulting in a ranking of each hand and thus a decision on
 		the probable best move. 
