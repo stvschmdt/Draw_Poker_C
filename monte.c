@@ -65,11 +65,11 @@ double  monte_Analysis(Deck *deck, Player *person){
 		  {1,1,1,1,1},
 		  {0,0,0,0,0},
 	 };
-				dummy.hand[0] = person->hand[0];
-				dummy.hand[1] = person->hand[1];
-				dummy.hand[2] = person->hand[2];
-				dummy.hand[3] = person->hand[3];
-				dummy.hand[4] = person->hand[4];
+	 dummy.hand[0] = person->hand[0];
+	 dummy.hand[1] = person->hand[1];
+	 dummy.hand[2] = person->hand[2];
+	 dummy.hand[3] = person->hand[3];
+	 dummy.hand[4] = person->hand[4];
 
 	 for(i = 0;i<32;i++){
 		  sum = 0;
@@ -104,4 +104,21 @@ double  monte_Analysis(Deck *deck, Player *person){
 
 void dealMC(Deck *deck){
 
+}
+
+int cpuBIGACTIONS(Player *table[], int bets, Deck *game_deck){
+#pragma omp parallel num_threads(4)
+	 int z;
+	 tid = omp_get_thread_number();
+	 for(z=1;z<NUM_PLAYERS;z++){
+		  if(tid == 1){
+				pot += cpuActions(game_deck, table[1], table[0], bets);
+		  }
+		  if(tid == 2){
+				pot += cpuActions(game_deck, table[2], table[0], bets);
+		  }
+		  if(tid == 3){
+				pot += cpuActions(game_deck, table[3], table[0], bets);
+		  }
+	 }
 }

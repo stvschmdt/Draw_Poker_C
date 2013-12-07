@@ -47,7 +47,7 @@ int getRupies(){
 	 int *rupies;
 	 int x = 0;
 	 rupies = &x;
-	 printf("Please enter how many rupies would you like\nto play poker with today--> ");
+	 printf("Please enter how many rupies would you like\nto play poker with today --> ");
 	 scanf("%i", rupies);
 	 printf("\n");
 
@@ -55,30 +55,51 @@ int getRupies(){
 }
 
 int betAmount(Player *one){
-	 int *bet;
-	 int x =0;
-	 bet = &x;
-	 printf("How much would you like to wager--> ");
-	 scanf("%i",bet);
-	 one->rupies -= (*bet);
-	 printf("\n");
+		  int *bet;
+		  int x =0;
+		  bet = &x;
+	 if(one->inGame != 0){
+		  if(one->rupies == 0){
+				printf("You need more rupies, at a undisclosed interest rate the house gladly loans out to you...\n");
+				getRupies();
+		  }
+		  printf("How much would you like to wager or type 'f' to fold --> ");
+		  scanf("%i",bet);
+		  if(one->rupies < *bet){
+				printf("You don't have that kind of cash son\n");
+				betAmount(one);
+		  }
+		  
+		  if(*bet != 'f'){
+				one->rupies -= (*bet);
+				printf("\n");
+		  }
+		  else{
+				userFold(&one);
+				one->inGame = 0;
+				*bet = 0;
+		  }
+	 }
 
 	 return *bet;
 }
 
 int newCards(Deck *dealer, Player *player){
-	 int *new;
-	 int x = 0;
-	 new = &x;
-	 printf("How many cards would you like?--> ");
-	 scanf("%i",new);
-	 swap(dealer, player, *new);
-	 return *new;
+		  int *new;
+		  int x = 0;
+		  new = &x;
+	 if(player->inGame != 0){
+		  printf("How many cards would you like? --> ");
+		  scanf("%i",new);
+		  swap(dealer, player, *new);
+
+	 }
+return *new;
 }
 
 int swap(Deck *dealer, Player *player, int numCards){
 	 int c, i, x = numCards;
-	 printf("Please type the letter of the card you would like to exchange--> ");
+	 printf("Please type the letter of the card you would like to exchange --> ");
 	 while(x > 0){
 		  c = getchar();
 		  if(c == ' '){
@@ -237,144 +258,147 @@ void evaluateHands(Player *table[]){
 }
 
 int needRaise(Player *p1, Player *user, int bet){
-	 
+
 	 char *raise = malloc(sizeof(char)*255);
-	 printf("%s raised to %i would you like to call or raise (Please type 'c' or 'r')? --> ", p1->name, bet);
+	 if(user->inGame !=0){
+	 printf("%s raised to %i would you like to call, raise or fold (Please type 'c', 'r', or 'f')? --> ", p1->name, bet);
 	 scanf("%s", raise);
 	 if((strcmp(raise, "c") ==0) || strcmp(raise, "call") == 0){
-	 user->rupies -= bet;
-	 printf("%s called %s\n", user->name, p1->name);
+		  user->rupies -= bet;
+
+		  printf("%s called %s\n", user->name, p1->name);
 	 }
 	 else if((strcmp(raise, "raise") ==0) || strcmp(raise, "r") == 0){
-		betAmount(user);			
+		  betAmount(user);			
 	 }
 	 else{
-		user->inGame = 0;
-		printf("%s folded...", user->name);
+		  user->inGame = 0;
+		  printf("%s folded...", user->name);
+	 }
 	 }
 
 	 return bet;
 }
 
 int monteSuggest(double rank){
-	int i;
-	int scale[10];
-	for(i=0;i<10;i++){
-		scale[i] = 0;
-	}
-	if(rank <= 12){
-		scale[0]++;
-	}
+	 int i;
+	 int scale[10];
+	 for(i=0;i<10;i++){
+		  scale[i] = 0;
+	 }
+	 if(rank <= 12){
+		  scale[0]++;
+	 }
 
-	if(rank > 12 && rank <=25){
-		scale[1]++;
+	 if(rank > 12 && rank <=25){
+		  scale[1]++;
 
-	}
+	 }
 
 
-	if(rank > 25 && rank <=54){
-		scale[2]++;
+	 if(rank > 25 && rank <=54){
+		  scale[2]++;
 
-	}
-	if(rank >54 && rank <=67){
-		scale[3]++;
+	 }
+	 if(rank >54 && rank <=67){
+		  scale[3]++;
 
-	}
-	if(rank >67 && rank <=81){
-		scale[4]++;
+	 }
+	 if(rank >67 && rank <=81){
+		  scale[4]++;
 
-	}
-	if(rank >81 && rank <=97){
-		scale[5]++;
+	 }
+	 if(rank >81 && rank <=97){
+		  scale[5]++;
 
-	}
-	if(rank >97 && rank <=113){
-		scale[6]++;
+	 }
+	 if(rank >97 && rank <=113){
+		  scale[6]++;
 
-	}
-	if(rank > 113 && rank <=127){
-		scale[7]++;
+	 }
+	 if(rank > 113 && rank <=127){
+		  scale[7]++;
 
-	}
-	if(rank > 127 && rank <= 139){
-		scale[8]++;
+	 }
+	 if(rank > 127 && rank <= 139){
+		  scale[8]++;
 
-	}
-	if(rank == 140){
-		scale[9]++;
+	 }
+	 if(rank == 140){
+		  scale[9]++;
 
-	}
-	printReco(scale);
-	return 0;
+	 }
+	 printReco(scale);
+	 return 0;
 }
 
 void printReco(int scale[10]){
-	if(scale[0] == 1){
-		printf("AI Data shows the most probable outcome to be a high card with the below exchange of cards...");
-	}
+	 if(scale[0] == 1){
+		  printf("AI Data shows the most probable outcome to be a high card with the below exchange of cards...");
+	 }
 
-	if(scale[1] == 1){
-		printf("AI Data shows the most probable outcome to be a pair with the below exchange of cards...");
-	}
-	if(scale[2] == 1){
-		printf("AI Data shows the most probable outcome to be two pair with the below exchange of cards...");
-	}
-	if(scale[3] == 1){
-		printf("AI Data shows the most probable outcome to be three of a kind with the below exchange of cards...");
-	}
-	if(scale[4] == 1){
-		printf("AI Data shows the most probable outcome to be a straight with the below exchange of cards...");
-	}
-	if(scale[5] == 1){
-		printf("AI Data shows the most probable outcome to be a flush with the below exchange of cards...");
-	}
-	if(scale[6] == 1){
-		printf("AI Data shows the most probable outcome to be a full house with the below exchange of cards...");
-	}
-	if(scale[7] == 1){
-		printf("AI Data shows the most probable outcome to be four of a kind with the below exchange of cards...");
-	}
-	if(scale[8] == 1){
-		printf("AI Data shows the most probable outcome to be a straight flush with the below exchange of cards...");
-	}
-	if(scale[9] == 1){
-		printf("AI Data shows the most probable outcome to be a royal flush with the below exchange of cards...");
-	}
+	 if(scale[1] == 1){
+		  printf("AI Data shows the most probable outcome to be a pair with the below exchange of cards...");
+	 }
+	 if(scale[2] == 1){
+		  printf("AI Data shows the most probable outcome to be two pair with the below exchange of cards...");
+	 }
+	 if(scale[3] == 1){
+		  printf("AI Data shows the most probable outcome to be three of a kind with the below exchange of cards...");
+	 }
+	 if(scale[4] == 1){
+		  printf("AI Data shows the most probable outcome to be a straight with the below exchange of cards...");
+	 }
+	 if(scale[5] == 1){
+		  printf("AI Data shows the most probable outcome to be a flush with the below exchange of cards...");
+	 }
+	 if(scale[6] == 1){
+		  printf("AI Data shows the most probable outcome to be a full house with the below exchange of cards...");
+	 }
+	 if(scale[7] == 1){
+		  printf("AI Data shows the most probable outcome to be four of a kind with the below exchange of cards...");
+	 }
+	 if(scale[8] == 1){
+		  printf("AI Data shows the most probable outcome to be a straight flush with the below exchange of cards...");
+	 }
+	 if(scale[9] == 1){
+		  printf("AI Data shows the most probable outcome to be a royal flush with the below exchange of cards...");
+	 }
 
-	printf("\n");
+	 printf("\n");
 }
 
 int printTextReco(Player *person){
-		if(person->mc_reco[0] == 1){
-			printf(" a  ");
-		}
-		else{
-			printf("    ");
-		}
-		if(person->mc_reco[1] == 1){
-			printf(" b  ");
-		}
-		else{
-			printf("    ");
-		}
-		if(person->mc_reco[2] == 1){
-			printf(" c  ");
-		}
-		else{
-			printf("    ");
-		}
-		if(person->mc_reco[3] == 1){
-			printf(" d  ");
-		}
-		else{
-			printf("    ");
-		}
-		if(person->mc_reco[4] == 1){
-			printf(" e  ");
-		}
-		else{
-			printf("    ");
-		}
-printf("\n");
-return 0;
+	 if(person->mc_reco[0] == 1){
+		  printf(" a  ");
+	 }
+	 else{
+		  printf("    ");
+	 }
+	 if(person->mc_reco[1] == 1){
+		  printf(" b  ");
+	 }
+	 else{
+		  printf("    ");
+	 }
+	 if(person->mc_reco[2] == 1){
+		  printf(" c  ");
+	 }
+	 else{
+		  printf("    ");
+	 }
+	 if(person->mc_reco[3] == 1){
+		  printf(" d  ");
+	 }
+	 else{
+		  printf("    ");
+	 }
+	 if(person->mc_reco[4] == 1){
+		  printf(" e  ");
+	 }
+	 else{
+		  printf("    ");
+	 }
+	 printf("\n");
+	 return 0;
 }

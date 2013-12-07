@@ -139,7 +139,17 @@ int isHand(Card *hand){
 	 return high;
 }
 
-
+/***********************************************************
+ *  the hand rank function uses the above function and sorts*
+ *  the possible outcomes into a well ordered real number   *
+ *  bucket for each of the 9 + royal flush outcomes possible*
+ *  with trailing pair in both the 2 pair and full house    *
+ *  bucket represented by 2*real number division by 13 as to*
+ *  maintain well ordered state and give weight to higher   *
+ *  pair or three of a kind verse trailing pair.            *
+ *  The hand ranking algo is used in the monte carlo as well*
+ *  as is below.                                            *
+ ***********************************************************/
 
 double handRank(Player *player){
 	 int i, j, f, k, s, t, y, z,  four = 0, high = 0, pair = 0, three = 0, straight = 0, flush = 0;
@@ -204,6 +214,7 @@ double handRank(Player *player){
 				if(straight == 5){
 					 break;
 				}
+
 		  }
 		  else{
 				straight = 0;
@@ -212,13 +223,13 @@ double handRank(Player *player){
 	 if(straight == 5 && flush == 0){
 		  rank = 66 + s;/*straight*/
 	 }
-	 else if(straight == 4 && facetrack[0] == 1 && flush == 0){
+	 else if( facetrack[0] == 1 && facetrack[1] == 1 &&facetrack[2] == 1 && facetrack[3] == 1 && facetrack[4] == 1 && facetrack[12] == 1 && flush == 0){
 		  rank = 66 + 5;/*straight to the 5*/
 	 }
 	 else if(straight == 5 && flush == 1){
 		  rank = 127 + s;/*straight flush*/
 	 }
-	 else if(straight == 4 && facetrack[0] == 1 && flush == 1){
+	 else if(facetrack[0] == 1 && facetrack[1] == 1 && facetrack[2] == 1 && facetrack[3] == 1 && facetrack[4] == 1 && facetrack[12] == 1 && flush == 1){
 		  rank = 127 + 5;/*straight flush*/
 	 }
 	 else if(four ==1){
@@ -318,13 +329,42 @@ int handCompareTo(Player *p1, Player *p2){
 					 p1->position++;
 				}
 
+				else{
+					 high = high1;
+					 for(i=0;i<high;i++){
+						  if(facetrack1[i] == 1){
+								high1 = i;
+						  }
+						  if(facetrack2[i] == 1){
+								high2 =i;
+						  }
 
+					 }
+					 if (high2 > high1){
+						  p2->position++;
+					 }
+					 else if(high1 > high2){
 
+						  p1->position++;
+					 }
+
+				}
 		  }
 	 }
-	 return 0;
 
+	 return 0;
 }
+
+/***********************************************************
+ *  the below winner determining function first takes any   *
+ *  inactive player and puts their position attribute to 0. *
+ *  the second step simply compares the position values of  *
+ *  the four players to give a winner of the highest amount.*
+ *  status and statement are returned to the stdout.        *
+ *  position is calculated in the function above based on   *
+ *  being in the game and having higher rank hand than      *
+ *  others. One point for each, max wins.                   *
+ ***********************************************************/
 
 char * winnerIs(Player *table[], int pot){
 	 int i;
@@ -361,7 +401,7 @@ char * winnerIs(Player *table[], int pot){
 		  return table[3]->name;
 	 }
 	 else{
-		  return "you have a bug";
+		  return "you have a split pot";
 	 }
 }
 
@@ -376,23 +416,43 @@ void tableCompareTo(Player *table[]){
 	 }
 
 }
-
+/***********************************************************
+ *  the below two functions cover the computer actions of   *
+ *  both staying in the game verse folding as well as       *
+ *  placing a bet or raise. further logic may be built in to*
+ *  make a more complex betting algorithm without losing    *
+ *  natural ease of play between computer and user.         *
+ *  the betting idea of raise or stay in is based off having*
+ *  a jack or better or small bet out of the gate by user.  *
+ ***********************************************************/
 
 int cpuBets(Player *person, Player *user, int bets){
 	 if(person->inGame !=0){
 		  if(person->rank < 20){
+				if(bets == 0){
+					bets = person->rupies * .20;
+				}
 				person->rupies -= bets;
+				if(person->rupies < 0){
+					person->rupies = 5*bets;
+				}
 				printf("%s, bets %i rupies\n",person->name, bets);
 				return bets;
 		  }
 		  else{
-					 bets = bets*1.2;
-					 person->rupies -= bets;
-					 printf("%s, bets %i rupies\n",person->name, bets);
-					 needRaise(person, user, bets);
-					 return bets;	
+				if(bets == 0){
+					bets = person->rupies * .30;
 				}
+				bets = bets*1.2;
+				person->rupies -= bets;
+				if(person->rupies < 0){
+					person->rupies = 5*bets;
+				}
+				printf("%s, bets %i rupies\n",person->name, bets);
+				needRaise(person, user, bets);
+				return bets;	
 		  }
+	 }
 	 return 0;
 }
 
@@ -414,5 +474,20 @@ int cpuActions(Deck *toDeal, Player *person, Player *user, int bet){
 		  person->inGame = 0;
 		  printf("%s decided to fold...\n\n",person->name);
 		  return 0;
+	 }
+}
+
+
+void playersLeft(Player *table[], int *gameStatus){
+	 int i, count=0, player;
+	 for(i = 0;i<NUM_PLAYERS;i++){
+		  if(table[i]->inGame == 1){
+				count++;
+				player = i;
+		  }
+	 }
+	 if(count == 1){
+		  table[i]->position = 4;
+		  *gameStatus = 0;
 	 }
 }

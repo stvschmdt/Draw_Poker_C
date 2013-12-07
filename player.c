@@ -21,3 +21,19 @@ int getStatus(Player *person){
 	printf("%s currently has %i rupies\n", person->name, person->rupies);
 return 0;
 }
+
+int getTableStatus(Player *table[]){
+	int i;
+	for(i = 0;i<NUM_PLAYERS;i++){
+		getStatus(table[i]);
+
+	}
+	printf("\n");
+return 0;
+}
+
+int userFold(Player *table[]){
+	table[0]->inGame = 0;
+	table[0]->position = 0;	
+return 0;
+}
