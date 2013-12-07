@@ -46,23 +46,24 @@ int main(){
 				bets = betAmount(&one);
 				printf("%s, bets %i rupies\n",one.name, bets);
 				pot += bets;
-				cpuBIGACTION(table, &bets, &game_deck);
-				/*
+				/*	cpuBIGACTION(table, &bets, &game_deck);
+
 #pragma omp parallel num_threads(4)
-				int z;
-				tid = omp_get_thread_number();
-				for(z=1;z<NUM_PLAYERS;z++){
+int z;
+tid = omp_get_thread_number();
+for(z=1;z<NUM_PLAYERS;z++){
+if(tid == 1){
+				 */		  pot += cpuActions(&game_deck, &two, &one, bets); 
+				/*	 }
 					 if(tid == 1){
-						  pot += cpuActions(&game_deck, &two, &one, bets); 
-					 }
+				 */		  pot += cpuActions(&game_deck, &three, &one, bets); 
+				/*	 }
 					 if(tid == 1){
-						  pot += cpuActions(&game_deck, &three, &one, bets); 
-					 }
-					 if(tid == 1){
-						  pot += cpuActions(&game_deck, &four, &one, bets); 
-					 }
-				}*/
+				 */		  pot += cpuActions(&game_deck, &four, &one, bets); 
+				/*	 }
+					 }*/
 				hBorder();
+				banter(table);
 				playersLeft(table, &gameStatus);
 		  }
 		  if(gameStatus ==1){
@@ -98,6 +99,7 @@ int main(){
 		  winnerIs(table, pot);
 		  hBorder();
 		  printf("\n");
+		  banter(table);
 		  getTableStatus(table);
 
 		  gamenumber = playgame();

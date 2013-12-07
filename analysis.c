@@ -428,7 +428,8 @@ void tableCompareTo(Player *table[]){
 
 int cpuBets(Player *person, Player *user, int bets){
 	 if(person->inGame !=0){
-		  if(person->rank < 20){
+		  srand(time(NULL));
+		  if(person->rank < 22 && rand() % 100 >=13){
 				if(bets == 0){
 					bets = person->rupies * .20;
 				}
@@ -441,7 +442,7 @@ int cpuBets(Player *person, Player *user, int bets){
 		  }
 		  else{
 				if(bets == 0){
-					bets = person->rupies * .30;
+					bets = person->rupies*.20;
 				}
 				bets = bets*1.2;
 				person->rupies -= bets;

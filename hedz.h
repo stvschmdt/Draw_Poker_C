@@ -3,7 +3,7 @@
 #include<string.h>
 #include<time.h>
 #include<math.h>
-#include<omp.h>
+/*#include<omp.h>*/
 
 #define HAND_SIZE 5
 #define NUM_PLAYERS 4
@@ -90,4 +90,5 @@ void playersLeft(Player *table[], int *gameStatus);
 int getTableStatus(Player *table[]);
 int userFold(Player *table[]);
 int cpuBIGACTIONS(Player *table[], int bets, Deck *game_deck);
+void banter(Player *table[]);
 void vBorder(int x);

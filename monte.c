@@ -105,7 +105,7 @@ double  monte_Analysis(Deck *deck, Player *person){
 void dealMC(Deck *deck){
 
 }
-
+/*
 int cpuBIGACTIONS(Player *table[], int bets, Deck *game_deck){
 #pragma omp parallel num_threads(4)
 	 int z;
@@ -121,4 +121,4 @@ int cpuBIGACTIONS(Player *table[], int bets, Deck *game_deck){
 				pot += cpuActions(game_deck, table[3], table[0], bets);
 		  }
 	 }
-}
+}*/
