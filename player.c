@@ -32,8 +32,8 @@ int getTableStatus(Player *table[]){
 return 0;
 }
 
-int userFold(Player *table[]){
-	table[0]->inGame = 0;
-	table[0]->position = 0;	
+int userFold(Player *player){
+	player->inGame = 0;
+	player->position = 0;	
 return 0;
 }

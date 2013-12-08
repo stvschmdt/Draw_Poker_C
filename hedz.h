@@ -9,7 +9,7 @@
 #define NUM_PLAYERS 4
 #define DECK_SIZE 52
 #define CARDS_PER_HAND 5
-#define MCTRIALS 10000
+#define MCTRIALS 10001
 
 typedef struct card{
 	 char *face;
@@ -35,6 +35,8 @@ typedef struct player{
 	 int inGame;
 	 Card monteCards[DECK_SIZE - HAND_SIZE];
 	 float bestPotential;
+	 double bestprob;
+	 int probnum;
 	 int mc_reco[5];
 } Player;
 
@@ -88,7 +90,8 @@ int monteSuggest(double rank);
 int printTextReco(Player *person);
 void playersLeft(Player *table[], int *gameStatus);
 int getTableStatus(Player *table[]);
-int userFold(Player *table[]);
+int userFold(Player *player);
 int cpuBIGACTIONS(Player *table[], int bets, Deck *game_deck);
 void banter(Player *table[]);
+void printProb(Player *person);
 void vBorder(int x);

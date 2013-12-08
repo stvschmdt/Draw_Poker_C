@@ -28,8 +28,11 @@ Deck create_Monte(Player *person){/*this may be uneccessary if i just keep the m
 }
 
 double  monte_Analysis(Deck *deck, Player *person){
-	 int i, j, k, bestType = 0;
-	 double maxave = 0.0, ave = 0.0, rank = 0.0, sum = 0.0;
+	 int i, j, k, z, bestType = 0;
+	 double avebucket = 0.0, maxave = 0.0, bestprob = 0.0, ave = 0.0, rank = 0.0, sum = 0.0;
+	 double maxscale = 0;
+	 int scalenum = 0;
+	 int scale[10];
 	 Player dummy = player_init("Dummy", 255);
 	 int choices[][5] = {
 		  {0,0,0,0,1},
@@ -65,6 +68,7 @@ double  monte_Analysis(Deck *deck, Player *person){
 		  {1,1,1,1,1},
 		  {0,0,0,0,0},
 	 };
+
 	 dummy.hand[0] = person->hand[0];
 	 dummy.hand[1] = person->hand[1];
 	 dummy.hand[2] = person->hand[2];
@@ -72,7 +76,12 @@ double  monte_Analysis(Deck *deck, Player *person){
 	 dummy.hand[4] = person->hand[4];
 
 	 for(i = 0;i<32;i++){
+		  maxscale = 0;
+		  scalenum = 0;
 		  sum = 0;
+		  for(z=0;z<10;z++){
+				scale[z] = 0;
+		  }
 		  for(j = 0; j < MCTRIALS; j++){
 				dummy.hand[0] = person->hand[0];
 				dummy.hand[1] = person->hand[1];
@@ -87,11 +96,53 @@ double  monte_Analysis(Deck *deck, Player *person){
 				}
 				rank = handRank(&dummy);
 				sum += (double)rank;
+				if(rank <= 12){
+					 scale[0]++;
+				}
+				else if(rank > 12 && rank <=25){
+					 scale[1]++;
+				}
+				else if(rank > 25 && rank <=54){
+					 scale[2]++;
+				}
+				else if(rank >54 && rank <=67){
+					 scale[3]++;
+				}
+				else if(rank >67 && rank <=81){
+					 scale[4]++;
+				}
+				else if(rank >81 && rank <=97){
+					 scale[5]++;
+				}
+				else if(rank >97 && rank <=113){
+					 scale[6]++;
+				}
+				else if(rank > 113 && rank <=127){
+					 scale[7]++;
+				}
+				else if(rank > 127 && rank <= 139){
+					 scale[8]++;
+				}
+				else if(rank == 140){
+					 scale[9]++;
+
+				}
 		  }
 		  ave = (double)sum/(double)MCTRIALS;
 		  if(ave > maxave){
 				maxave = ave;
 				bestType = i;
+				for(z = 0;z<10;z++){
+					 if (scale[z] > maxscale){
+						  maxscale = scale[z];
+						  scalenum = z;
+					 }
+				}
+				avebucket = (double) maxscale / (double)MCTRIALS;
+				if (avebucket > bestprob){
+					 bestprob = avebucket;
+					 person->probnum = scale[scalenum];
+				}
 		  }
 	 }
 	 person->mc_reco[0] = choices[bestType][0];
@@ -99,6 +150,7 @@ double  monte_Analysis(Deck *deck, Player *person){
 	 person->mc_reco[2] = choices[bestType][2];
 	 person->mc_reco[3] = choices[bestType][3];
 	 person->mc_reco[4] = choices[bestType][4];
+	 person->bestprob = bestprob;
 	 return maxave;
 }
 
@@ -106,19 +158,19 @@ void dealMC(Deck *deck){
 
 }
 /*
-int cpuBIGACTIONS(Player *table[], int bets, Deck *game_deck){
+	int cpuBIGACTIONS(Player *table[], int bets, Deck *game_deck){
 #pragma omp parallel num_threads(4)
-	 int z;
-	 tid = omp_get_thread_number();
-	 for(z=1;z<NUM_PLAYERS;z++){
-		  if(tid == 1){
-				pot += cpuActions(game_deck, table[1], table[0], bets);
-		  }
-		  if(tid == 2){
-				pot += cpuActions(game_deck, table[2], table[0], bets);
-		  }
-		  if(tid == 3){
-				pot += cpuActions(game_deck, table[3], table[0], bets);
-		  }
-	 }
+int z;
+tid = omp_get_thread_number();
+for(z=1;z<NUM_PLAYERS;z++){
+if(tid == 1){
+pot += cpuActions(game_deck, table[1], table[0], bets);
+}
+if(tid == 2){
+pot += cpuActions(game_deck, table[2], table[0], bets);
+}
+if(tid == 3){
+pot += cpuActions(game_deck, table[3], table[0], bets);
+}
+}
 }*/

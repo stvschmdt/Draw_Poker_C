@@ -58,27 +58,33 @@ int betAmount(Player *one){
 	 int *bet;
 	 int x =0;
 	 bet = &x;
+	 char *fold = malloc(sizeof(char)*255);;
 	 if(one->inGame != 0){
 		  if(one->rupies == 0){
 				printf("You need more rupies, at a undisclosed interest rate the house gladly loans out to you...\n");
 				getRupies();
 		  }
-		  printf("How much would you like to wager or type 'f' to fold --> ");
-		  scanf("%i",bet);
-		  while(one->rupies < *bet){
-				printf("You don't have that kind of cash son\n");
-				printf("How much would you like to wager or type 'f' to fold --> ");
-				scanf("%i",bet);
-		  }
-
-		  if(*bet != 'f'){
-				one->rupies -= (*bet);
-				printf("\n");
-		  }
-		  else{
-				userFold(&one);
+		  printf("Do you want to bet or fold - please type 'b' or 'f'? --> ");
+		  scanf("%s", fold);
+		  if((strcmp(fold, "f") == 0) || (strcmp(fold, "fold") == 0)){
+				userFold(one);
 				one->inGame = 0;
 				*bet = 0;
+
+		  }
+		  else{
+				printf("How much would you like to wager --> ");
+				scanf("%i",bet);
+				if(one->rupies < *bet){
+
+					 printf("You don't have that kind of cash son\n");
+					 betAmount(one);
+				}
+
+				if(*bet != 'f'){
+					 one->rupies -= (*bet);
+					 printf("\n");
+				}
 		  }
 	 }
 
@@ -217,7 +223,7 @@ void print_Options(){
 }
 
 void hBorder(){
-	 printf("******************************************************\n");
+	 printf("\n******************************************************\n");
 }
 
 void vBorder(int x){
@@ -265,12 +271,17 @@ int needRaise(Player *p1, Player *user, int bet){
 		  printf("%s raised to %i would you like to call, raise or fold (Please type 'c', 'r', or 'f')? --> ", p1->name, bet);
 		  scanf("%s", raise);
 		  if((strcmp(raise, "c") ==0) || strcmp(raise, "call") == 0){
-				user->rupies -= bet;
-
+				if(user->rupies < bet){
+				printf("You don't have enough to match the call, so %s called %s %i rupies\n", user->name, p1->name, user->rupies);
+					 user->rupies  = 0;
+				}
+				else{
+					 user->rupies -= bet;
+				}
 				printf("%s called %s\n", user->name, p1->name);
 		  }
 		  else if((strcmp(raise, "raise") ==0) || strcmp(raise, "r") == 0){
-				betAmount(user);			
+				bet = betAmount(user);			
 		  }
 		  else{
 				user->inGame = 0;
@@ -332,6 +343,12 @@ int monteSuggest(double rank){
 	 printReco(scale);
 	 return 0;
 }
+
+void printProb(Player *person){
+		  printf("With probability %.3f%% based of %i hits in %d trials", person->bestprob*100, person->probnum, MCTRIALS); 
+		
+}
+
 
 void printReco(int scale[10]){
 	 if(scale[0] == 1){
@@ -401,40 +418,42 @@ int printTextReco(Player *person){
 		  printf("    ");
 	 }
 	 printf("\n");
+	 printProb(person);
+	 printf("\n");
 	 return 0;
 }
 
 void banter(Player *table[]){
-	int i, j = 0, k;
-	srand(time(NULL));
-	for(i=0;i<NUM_PLAYERS;i++){
-		if(table[i]->position > 2){
-			j++;
-			k = i;
-		}
-	}
-	if( rand()% 100 > 59 && j ==0){
-		printf("\n\nTaloon tells a bad joke...no one laughs\n\n");
-	}
+	 int i, j = 0, k;
+	 srand(time(NULL));
+	 for(i=0;i<NUM_PLAYERS;i++){
+		  if(table[i]->position > 2){
+				j++;
+				k = i;
+		  }
+	 }
+	 if( rand()% 100 > 59 && j ==0){
+		  printf("\n\nTaloon tells a bad joke...no one laughs\n\n");
+	 }
 
-	if( rand()% 100 > 13 && j ==0){
-		printf("\n\nLINK says: Hey %s, are you sure you know how to play?\n\n", table[0]->name);
-	}
-	if( rand()% 100 > 87 && j ==0){
-		printf("\n\nMario says: Pssst %s, if I see you using Emacs again I will take all your rupies\n\n", table[0]->name);
-	}
-	if( rand()% 100 > 61 && j ==0){
-		printf("\n\nLINK says: Wow Gannon has a better poker face than you do %s\n\n", table[0]->name);
-	}
-	if( rand()% 100 > 61 && j > 2 && table[0]->position < 1){
-		printf("\n\n%s says: %s, you should consider this 'A STRANGE GAME'...Maybe we could play chess?\n\n", table[k]->name, table[0]->name);
-	}
-	if( rand()% 100 > 61 && j >2){
-		printf("\n\nMario says: Don't you like how we get unlimited funds...pays to own the casino!\n\n");
-	}
-	if( rand()% 100 > 61 && table[0]->position == 3){
-		printf("\n\nLink says: %s you are destroying us! We should probably get back to rescuing the princess...\n\n", table[0]->name);
-	}
+	 if( rand()% 100 > 37 && j ==0){
+		  printf("\n\nLINK says: Hey %s, are you sure you know how to play?\n\n", table[0]->name);
+	 }
+	 if( rand()% 100 > 87 && j ==0){
+		  printf("\n\nMario says: Pssst %s, if I see you using Emacs again I will take all your rupies\n\n", table[0]->name);
+	 }
+	 if( rand()% 100 > 61 && j ==0){
+		  printf("\n\nLINK says: Wow Gannon has a better poker face than you do %s\n\n", table[0]->name);
+	 }
+	 if( rand()% 100 > 61 && j > 2 && table[0]->position < 1){
+		  printf("\n\n%s says: %s, you should consider this 'A STRANGE GAME'...Maybe we could play chess?\n\n", table[k]->name, table[0]->name);
+	 }
+	 if( rand()% 100 > 61 && j >2){
+		  printf("\n\nMario says: Don't you like how we get unlimited funds...pays to own the casino!\n\n");
+	 }
+	 if( rand()% 100 > 61 && table[0]->position == 3){
+		  printf("\n\nLink says: %s you are destroying us! We should probably get back to rescuing the princess...\n\n", table[0]->name);
+	 }
 
 
 }

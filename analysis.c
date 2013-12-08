@@ -381,20 +381,20 @@ char * winnerIs(Player *table[], int pot){
 		  return table[0]->name;
 	 }
 
-	 if(table[1]->position > table[0]->position && table[1]->position > table[2]->position && table[1]->position > table[3]->position){
+	 else if(table[1]->position > table[0]->position && table[1]->position > table[2]->position && table[1]->position > table[3]->position){
 		  table[1]->rupies += pot;
 		  printf("\n%s WINS %i RUPIES\n", table[1]->name, pot);
 		  getStatus(table[1]);
 		  return table[1]->name;
 	 }
-	 if(table[2]->position > table[0]->position && table[2]->position > table[1]->position && table[2]->position > table[3]->position){
+	 else if(table[2]->position > table[0]->position && table[2]->position > table[1]->position && table[2]->position > table[3]->position){
 		  table[2]->rupies += pot;
 		  printf("\n%s WINS %i RUPIES\n", table[2]->name, pot);
 		  getStatus(table[2]);
 		  return table[2]->name;
 	 }
 
-	 if(table[3]->position > table[0]->position && table[3]->position > table[1]->position && table[3]->position > table[2]->position){
+	 else if(table[3]->position > table[0]->position && table[3]->position > table[1]->position && table[3]->position > table[2]->position){
 		  table[3]->rupies += pot;
 		  printf("\n%s WINS %i RUPIES\n", table[3]->name, pot);
 		  getStatus(table[3]);
@@ -435,7 +435,7 @@ int cpuBets(Player *person, Player *user, int bets){
 				}
 				person->rupies -= bets;
 				if(person->rupies < 0){
-					person->rupies = 5*bets;
+					person->rupies =3*bets;
 				}
 				printf("%s, bets %i rupies\n",person->name, bets);
 				return bets;
@@ -488,7 +488,7 @@ void playersLeft(Player *table[], int *gameStatus){
 		  }
 	 }
 	 if(count == 1){
-		  table[i]->position = 4;
+		  table[player]->position = 4;
 		  *gameStatus = 0;
 	 }
 }

@@ -5,9 +5,7 @@ int main(){
 	 int bets = 0, pot = 0;
 
 	 Deck game_deck = get_new_Deck();
-
 	 welcome();
-
 	 printf("\n");
 	 hBorder();
 	 printf("\n");
@@ -92,9 +90,6 @@ if(tid == 1){
 		  printResults(table);
 		  evaluateHands(table); 
 		  tableCompareTo(table);
-
-		  /*for testing*/
-		  printf("Player one's pos points: %i\nPlayer two's pos points: %i\nPlayer three's pos points: %i\nPlayer four's pos points: %i\n", one.position, two.position, three.position, four.position);
 
 		  winnerIs(table, pot);
 		  hBorder();
