@@ -5,6 +5,11 @@ int main(){
 	 int bets = 0, pot = 0;
 
 	 Deck game_deck = get_new_Deck();
+	 printf("\n\n");
+	 hBorder();	 
+	 printf("\n\n");
+	 welcomeSign();
+	 hBorder();	 
 	 welcome();
 	 printf("\n");
 	 hBorder();
@@ -35,9 +40,11 @@ int main(){
 
 		  if(gameStatus == 1){ 
 				gamesplayed++;
-				printf("\n\n");
-				welcomeSign();
-				hBorder();	 
+				if(gamesplayed != 0){
+					 printf("\n\n");
+					 welcomeSign();
+					 hBorder();	 
+				}
 				printf("\n\nREADY -- Here we go...\n\n");
 				shuffle(&game_deck, DECK_SIZE);
 				first_Deal(&game_deck, table, NUM_PLAYERS);
