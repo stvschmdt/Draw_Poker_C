@@ -9,6 +9,7 @@ int main(){
 	 printf("\n");
 	 hBorder();
 	 printf("\n");
+	 printf("\n");
 
 	 Player one = player_init(getName(), getRupies());
 	 printf("Hi %s, you have %i rupies\n",one.name, one.rupies);
