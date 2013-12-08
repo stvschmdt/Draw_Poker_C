@@ -35,6 +35,9 @@ int main(){
 
 		  if(gameStatus == 1){ 
 				gamesplayed++;
+				printf("\n\n");
+				welcomeSign();
+				hBorder();	 
 				printf("\n\nREADY -- Here we go...\n\n");
 				shuffle(&game_deck, DECK_SIZE);
 				first_Deal(&game_deck, table, NUM_PLAYERS);
@@ -55,10 +58,14 @@ if(tid == 1){
 				 */		  pot += cpuActions(&game_deck, &two, &one, bets); 
 				/*	 }
 					 if(tid == 1){
-				 */		  pot += cpuActions(&game_deck, &three, &one, bets); 
+				 */		  
+				printf("...hmm...yea...\n");
+				pot += cpuActions(&game_deck, &three, &one, bets); 
 				/*	 }
 					 if(tid == 1){
-				 */		  pot += cpuActions(&game_deck, &four, &one, bets); 
+				 */		  
+				printf("...uhhh...ok...\n");
+				pot += cpuActions(&game_deck, &four, &one, bets); 
 				/*	 }
 					 }*/
 				hBorder();

@@ -62,7 +62,7 @@ int betAmount(Player *one){
 	 if(one->inGame != 0){
 		  if(one->rupies == 0){
 				printf("You need more rupies, at a undisclosed interest rate the house gladly loans out to you...\n");
-				getRupies();
+				one->rupies = getRupies();
 		  }
 		  printf("Do you want to bet or fold - please type 'b' or 'f'? --> ");
 		  scanf("%s", fold);
@@ -77,7 +77,7 @@ int betAmount(Player *one){
 				scanf("%i",bet);
 				if(one->rupies < *bet){
 
-					 printf("You don't have that kind of cash son\n");
+					 printf("You don't have that kind of cash kid\n");
 					 betAmount(one);
 				}
 
@@ -223,7 +223,7 @@ void print_Options(){
 }
 
 void hBorder(){
-	 printf("\n******************************************************\n");
+	 printf("\n************************************************************************\n");
 }
 
 void vBorder(int x){
@@ -439,7 +439,7 @@ void banter(Player *table[]){
 	 if( rand()% 100 > 37 && j ==0){
 		  printf("\n\nLINK says: Hey %s, are you sure you know how to play?\n\n", table[0]->name);
 	 }
-	 if( rand()% 100 > 87 && j ==0){
+	 if( rand()% 100 > 73 && j ==0){
 		  printf("\n\nMario says: Pssst %s, if I see you using Emacs again I will take all your rupies\n\n", table[0]->name);
 	 }
 	 if( rand()% 100 > 61 && j ==0){
@@ -455,5 +455,11 @@ void banter(Player *table[]){
 		  printf("\n\nLink says: %s you are destroying us! We should probably get back to rescuing the princess...\n\n", table[0]->name);
 	 }
 
+
+}
+
+
+void welcomeSign(){
+	printf("    .:: .::        .:         .:: ::   .::  .:::      .::      .::::\n    .::           .: ::      .::    .:  :.:  :.: .::   .::  .::    .::\n    .::           .:  .::     .::       .::  .:: .::  .::. ::        .::\n    .::          .::   .::      .::     .::  .::  .:: .::. ::        .::\n    .::         .:::::: .::        .:   :.:  :.:   .: .::. ::        .::\n    .::    .:: .::       .::   .::      :::  :.:    .: ::  .::     .::\n      .::::    .::         .: :  .:     :.:  :.:      .::    .::::\n\n\n");
 
 }

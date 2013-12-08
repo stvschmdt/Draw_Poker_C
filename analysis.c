@@ -104,16 +104,15 @@ int isHand(Card *hand){
 	 if(straight == 5 && flush == 0){
 		  printf("You have a straight to the %s", faces[s]);
 	 }
-	 else if(straight == 4 && facetrack[0] == 1 && flush == 0){
+	 else if( facetrack[0] == 1 && facetrack[1] == 1 &&facetrack[2] == 1 && facetrack[3] == 1 && facetrack[4] == 1 && facetrack[12] == 1 && flush == 0){
 		  printf("You have a straight to the %s", faces[4]);
 	 }
 	 else if(straight == 5 && flush == 1){
 		  printf("You have a royal flush to the %s", faces[s]);
 	 }
-	 else if(straight == 4 && facetrack[0] == 1 && flush == 0){
+	 else if(facetrack[0] == 1 && facetrack[1] == 1 && facetrack[2] == 1 && facetrack[3] == 1 && facetrack[4] == 1 && facetrack[12] == 1 && flush == 1){
 		  printf("You have a straight flush");
 	 }
-
 	 else if(pair == 1 && three == 0){
 		  printf("You have a pair of %s's", faces[x]);
 	 }

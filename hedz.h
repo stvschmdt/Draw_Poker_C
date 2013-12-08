@@ -94,4 +94,5 @@ int userFold(Player *player);
 int cpuBIGACTIONS(Player *table[], int bets, Deck *game_deck);
 void banter(Player *table[]);
 void printProb(Player *person);
+void welcomeSign();
 void vBorder(int x);
