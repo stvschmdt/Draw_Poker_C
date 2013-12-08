@@ -9,9 +9,9 @@
  *  these are welcome/getName/getRupies/betAmount/newCards  *
  ***********************************************************/
 void welcome(){
-	 printf("\n\nWELCOME TO SCHMIDTCHUNK CASINO\n");
-	 printf("--© 1998-2013 Schmidt Enterprises--\n--------------------------\n\n\n");
-	 printf("Mario, Link and Taloon are waiting for you to sit down\n\n");
+	 printf("\n\n             WELCOME TO SCHMIDTCHUNK CASINO\n");
+	 printf("           --© 1998-2013 Schmidt Enterprises--\n               --------------------------\n\n\n");
+	 printf("     Mario, Link and Taloon are waiting for you to sit down\n\n");
 }
 
 int playgame(){
