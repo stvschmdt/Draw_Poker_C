@@ -39,12 +39,12 @@ int main(){
 	 while(gamenumber == 1){
 
 		  if(gameStatus == 1){ 
-				gamesplayed++;
 				if(gamesplayed != 0){
 					 printf("\n\n");
 					 welcomeSign();
 					 hBorder();	 
 				}
+				gamesplayed++;
 				printf("\n\nREADY -- Here we go...\n\n");
 				shuffle(&game_deck, DECK_SIZE);
 				first_Deal(&game_deck, table, NUM_PLAYERS);
