@@ -114,6 +114,8 @@ if(tid == 1){
 
 		  gamenumber = playgame();
 		  printf("\n\n\n\n");
+		  bets = 0;
+		  pot = 0;
 		  tableRefresh(table);
 	 }
 	 return 0;
