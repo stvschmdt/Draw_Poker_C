@@ -1,6 +1,14 @@
 Steve Schmidt
 steveschmidt
 
+------
+TO RUN
+------
+~$ make
+~$./poker
+
+/*makefile is included, running make will compile necessary files and executables and ./poker will begin the program*/
+
 -------------------------------
 Poker in C Programming Language
 -------------------------------
