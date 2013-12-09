@@ -78,10 +78,10 @@ int betAmount(Player *one){
 				if(one->rupies < *bet){
 
 					 printf("You don't have that kind of cash kid\n");
-					 betAmount(one);
+					 *bet = betAmount(one);
 				}
 
-				if(*bet != 'f'){
+				else if(*bet != 'f'){
 					 one->rupies -= (*bet);
 					 printf("\n");
 				}
